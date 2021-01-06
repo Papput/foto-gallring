@@ -1,16 +1,20 @@
+import { Container } from 'react-bootstrap';
 import { Routes, Route} from 'react-router-dom';
+import Login from './components/Login';
 
 function App() {
   return (
     <div id="APP">
-        <Routes>
-            <Route path="/">
-                Home
-            </Route>
-            <Route path="/login">
-                <p>Login</p>
-            </Route>
-        </Routes>
+        <Container>
+            <Routes>
+                <Route path="/">
+                    Home
+                </Route>
+                <Route path="/login">
+                    <Login />
+                </Route>
+            </Routes>
+        </Container>
     </div>
   );
 }
