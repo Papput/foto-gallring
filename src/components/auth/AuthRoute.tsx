@@ -8,6 +8,9 @@ type Props = {
 }
 
 const AuthRoute: FC<Props> = (props) => {
+    if(loginStore.loading) {
+        return <div>Loading...</div>
+    }
     return (
         loginStore.user 
             ? (<Route {...props} />)

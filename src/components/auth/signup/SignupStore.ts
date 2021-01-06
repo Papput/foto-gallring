@@ -1,5 +1,6 @@
+import React from 'react';
 import { action, makeObservable, observable } from 'mobx';
-import firebase, { auth } from '../../../firebase/index';
+import { auth } from '../../../firebase/index';
 class SignUpStore {
 
     error: string | null = null;
@@ -14,8 +15,7 @@ class SignUpStore {
         this.error = message;
     }
 
-    async signUp(e: any, email: string, password: string) {
-        e.preventDefault();
+    async signUp(email: string, password: string) {
         this.setErrorMessage(null)
         try {
             await auth.createUserWithEmailAndPassword(email, password);

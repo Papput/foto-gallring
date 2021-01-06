@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Form, Alert, Button, Col } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { signUpStore } from "./SignupStore";
 import styled from 'styled-components';
 import { observer } from "mobx-react";
+import { loginStore } from "../login/LoginStore";
 
 
 const StyledCol = styled(Col)`
@@ -24,14 +25,23 @@ const StyledLink = styled(Link)`
 `
 
 const SignUp = () => {
+    const navigate = useNavigate();
     const [ email, setEmail ] = useState("");
     const [ password, setPassword ] = useState("");
+
+    const handleSignup = (e: React.FormEvent<HTMLFormElement>,) => {
+        e.preventDefault();
+        signUpStore.signUp(email, password);
+        setPassword("");
+        setEmail("");
+        navigate('/');
+    }
     return (
         <StyledCol sm={6}>
             <H1>Sign up</H1>
             <Card>
                 <Card.Body>
-                    <Form onSubmit={(e) => signUpStore.signUp(e, email, password)}>
+                    <Form onSubmit={(e) => handleSignup(e)}>
                         <Form.Group>
                             <Form.Label htmlFor="email">Email address</Form.Label>
                             <Form.Control id="email" type="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)} required />
