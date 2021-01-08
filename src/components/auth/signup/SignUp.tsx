@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Card, Form, Alert, Button, Col } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
-import { signUpStore } from "./SignupStore";
+import { Link } from "react-router-dom";
 import styled from 'styled-components';
-import { observer } from "mobx-react";
-import { loginStore } from "../login/LoginStore";
+import { useAuth } from "../../../hooks/useAuth";
 
 
 const StyledCol = styled(Col)`
@@ -25,23 +23,16 @@ const StyledLink = styled(Link)`
 `
 
 const SignUp = () => {
-    const navigate = useNavigate();
     const [ email, setEmail ] = useState("");
     const [ password, setPassword ] = useState("");
+    const { signUp, errorMessage } = useAuth();
 
-    const handleSignup = (e: React.FormEvent<HTMLFormElement>,) => {
-        e.preventDefault();
-        signUpStore.signUp(email, password);
-        setPassword("");
-        setEmail("");
-        navigate('/');
-    }
     return (
         <StyledCol sm={6}>
             <H1>Sign up</H1>
             <Card>
                 <Card.Body>
-                    <Form onSubmit={(e) => handleSignup(e)}>
+                    <Form onSubmit={(e: React.FormEvent<HTMLFormElement>) => signUp(e, email, password)}>
                         <Form.Group>
                             <Form.Label htmlFor="email">Email address</Form.Label>
                             <Form.Control id="email" type="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)} required />
@@ -56,8 +47,8 @@ const SignUp = () => {
                         </Button>
                     </Form>
 
-                    {signUpStore.error && <StyledAlert variant={'warning'}>
-                       {signUpStore.error}
+                    {errorMessage && <StyledAlert variant={'warning'}>
+                       {errorMessage}
                     </StyledAlert>}
                 </Card.Body>
             </Card>
@@ -66,4 +57,4 @@ const SignUp = () => {
     )
 }
 
-export default observer(SignUp);
+export default SignUp;

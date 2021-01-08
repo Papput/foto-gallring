@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { Card, Form, Alert, Button, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { resetPasswordStore } from "./ResetPasswordStore";
 import styled from 'styled-components';
-import { observer } from "mobx-react";
+import { useAuth } from "../../../hooks/useAuth";
 
 
 const StyledCol = styled(Col)`
@@ -25,13 +24,14 @@ const StyledLink = styled(Link)`
 
 const ResetPassword = () => {
     const [ email, setEmail ] = useState("");
+    const { resetPassword, errorMessage, message } = useAuth();
 
     return (
         <StyledCol sm={6}>
             <H1>Reset password</H1>
             <Card>
                 <Card.Body>
-                    <Form onSubmit={(e) => resetPasswordStore.resetPassword(e, email)}>
+                    <Form onSubmit={(e) => resetPassword(e, email)}>
                         <Form.Group>
                             <Form.Label htmlFor="email">Email address</Form.Label>
                             <Form.Control id="email" type="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)} required />
@@ -42,14 +42,14 @@ const ResetPassword = () => {
                         </Button>
                     </Form>
 
-                    {resetPasswordStore.error && (
+                    {errorMessage && (
                         <StyledAlert variant={'warning'}>
-                            {resetPasswordStore.error}
+                            {errorMessage}
                         </StyledAlert>)
                     }
-                    {resetPasswordStore.info && (
+                    {message && (
                         <StyledAlert variant={'info'}>
-                            {resetPasswordStore.info}
+                            {message}
                         </StyledAlert>)
                     }
                 </Card.Body>
@@ -59,4 +59,4 @@ const ResetPassword = () => {
     )
 }
 
-export default observer(ResetPassword);
+export default ResetPassword;

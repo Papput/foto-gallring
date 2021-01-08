@@ -1,9 +1,8 @@
-import { observer } from 'mobx-react';
 import React, { useState } from 'react'
 import { Alert, Button, Card, Col, Form } from 'react-bootstrap';
 import styled from 'styled-components';
-import { loginStore } from './LoginStore';
 import { Link } from 'react-router-dom'
+import { useAuth } from '../../../hooks/useAuth';
 
 const StyledCol = styled(Col)`
     margin: 0 auto;
@@ -25,12 +24,13 @@ const StyledLink = styled(Link)`
 const Login = () => {
     const [ email, setEmail ] = useState("");
     const [ password, setPassword ] = useState("");
+    const { login, errorMessage } = useAuth();
     return (
         <StyledCol sm={6}>
             <H1>Sign in</H1>
             <Card>
                 <Card.Body>
-                    <Form onSubmit={(e) => loginStore.login(e, email, password)}>
+                    <Form onSubmit={(e: React.FormEvent<HTMLFormElement>) => login(e, email, password)}>
                         <Form.Group>
                             <Form.Label htmlFor="email">Email address</Form.Label>
                             <Form.Control id="email" type="email" placeholder="Enter email" value={email} onChange={e => setEmail(e.target.value)} required />
@@ -45,8 +45,8 @@ const Login = () => {
                         </Button>
                     </Form>
 
-                    {loginStore.error && <StyledAlert variant={'warning'}>
-                       {loginStore.error} <Alert.Link as={Link} to="/password-reset">Forgot password?</Alert.Link>
+                    {errorMessage && <StyledAlert variant={'warning'}>
+                       {errorMessage} <Alert.Link as={Link} to="/password-reset">Forgot password?</Alert.Link>
                     </StyledAlert>}
                 </Card.Body>
             </Card>
@@ -55,4 +55,4 @@ const Login = () => {
     )
 }
 
-export default observer(Login)
+export default Login;

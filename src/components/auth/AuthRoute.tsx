@@ -1,21 +1,24 @@
 import React, { FC } from 'react';
-import { observer } from 'mobx-react'
 import { Navigate, Route} from 'react-router-dom';
-import { loginStore } from './login/LoginStore';
+
+import { isLoaded } from 'react-redux-firebase';
+import { useSelector } from 'react-redux'
+import { RootState } from '../../store/rootReducer';
 
 type Props = {
     path?: string
 }
 
 const AuthRoute: FC<Props> = (props) => {
-    if(loginStore.loading) {
+    const auth = useSelector((state: RootState) => state.firebase.auth);
+    if(!isLoaded) {
         return <div>Loading...</div>
     }
     return (
-        loginStore.user 
+        auth 
             ? (<Route {...props} />)
             : <Navigate to="/login" />
     )
 }
 
-export default observer(AuthRoute);
+export default AuthRoute;
