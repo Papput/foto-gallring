@@ -7,6 +7,7 @@ import LogOut from './components/auth/logout/LogOut';
 import ResetPassword from './components/auth/resetPassword/ResetPassword';
 import SignUp from './components/auth/signup/SignUp';
 import Main from './components/main/Main';
+import CreateAlbum from './components/album/CreateAlbum';
 
 function App() {
   return (
@@ -15,6 +16,9 @@ function App() {
             <Routes>
                 <AuthRoute path="/">
                     <Main />
+                </AuthRoute>
+                <AuthRoute path="/album">
+                    <CreateAlbum />
                 </AuthRoute>
                 <Route path="/log-out">
                     <LogOut />
