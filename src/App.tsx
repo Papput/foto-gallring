@@ -7,7 +7,7 @@ import LogOut from './components/auth/logout/LogOut';
 import ResetPassword from './components/auth/resetPassword/ResetPassword';
 import SignUp from './components/auth/signup/SignUp';
 import Main from './components/main/Main';
-import CreateAlbum from './components/album/CreateAlbum';
+import CreateAlbum from './components/album/UploadImagesToAlbum';
 
 function App() {
   return (
