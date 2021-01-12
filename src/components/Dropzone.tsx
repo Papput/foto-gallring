@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, SetStateAction, useCallback, useState } from 'react'
+import React, { Dispatch, FC, SetStateAction, useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
 import styled from 'styled-components';
 
@@ -30,7 +30,7 @@ const Dropzone: FC<props> = ({className, setImages}) => {
                 <p>Drop the files here ...</p> :
                 <p>Drag 'n' drop some files here, or click to select files</p>
             }
-        </DropZoneDiv>
+        </DropZoneDiv>       
     )
 }
 
