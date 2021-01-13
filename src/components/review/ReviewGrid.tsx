@@ -28,7 +28,7 @@ const ReviewGrid: FC<props> = () => {
         <StyledRow>
             {images.map((image, index) => {
                 return (
-                    <Col key={index} sm={6} md={4}>
+                    <Col className={"mb-5"} key={index} sm={6} md={4}>
                         <Image image={image} canBeToggled={false} />
                         <ButtonContainer>
                             <Button variant="danger" onClick={() => dispatch({type: THUMBS_DOWN_IMAGE, payload: image})}>Buuuu!</Button>

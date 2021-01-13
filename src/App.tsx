@@ -10,11 +10,14 @@ import SignUp from './components/auth/signup/SignUp';
 import Main from './components/main/Main';
 import UploadImagesToAlbum from './components/album/UploadImagesToAlbum';
 import Review from './components/review/Review';
+import Navbar from './components/navbar/NavbarComponent';
+import SuccessPage from './components/review/SuccessPage';
 
 
 function App() {
   return (
     <div id="APP">
+        <Navbar />
         <Container>
             <Routes>
                 <AuthRoute path="/">
@@ -23,9 +26,12 @@ function App() {
                 <AuthRoute path="/album/:albumId">
                     <UploadImagesToAlbum />
                 </AuthRoute>
-                <AuthRoute path="/review/:albumId">
+                <Route path="/success">
+                    <SuccessPage />
+                </Route>
+                <Route path="/review/:albumId">
                     <Review />
-                </AuthRoute>
+                </Route>
                 <Route path="/log-out">
                     <LogOut />
                 </Route>

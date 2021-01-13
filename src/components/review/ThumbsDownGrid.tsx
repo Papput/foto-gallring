@@ -23,7 +23,7 @@ const ThumbsDownGrid = () => {
         <StyledRow>
             {thumbsDownImages.map((image, index) => {
                 return (
-                    <Col key={index} sm={6} md={4}>
+                    <Col className={"mb-5"} key={index} sm={6} md={4}>
                         <Image image={image} canBeToggled={false} />
                         <ButtonContainer>
                             <Button variant="success" onClick={() => dispatch({type: THUMBS_UP_IMAGE, payload: image})}>Yaaay!</Button>

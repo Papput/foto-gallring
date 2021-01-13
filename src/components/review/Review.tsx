@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/rootReducer';
 import useGetImages from '../../hooks/useGetImages';
+import SendReview from './SendReview';
 
 const GridArea = styled.div`
     padding: 4rem 0rem;
@@ -30,7 +31,9 @@ const Review = () => {
     const { images, thumbsUpImages, thumbsDownImages } = useSelector((state: RootState) => state.images);
     return (
         <div>
-
+            {images.length === 0 && thumbsUpImages.length > 0 && 
+                <SendReview />
+            }
             {images.length > 0 && 
                 <SimpleReactLightbox>
                     <GridArea border={true} >
@@ -57,7 +60,7 @@ const Review = () => {
             {thumbsDownImages.length > 0 &&   
                 <SimpleReactLightbox>
                     <GridArea border={false}>
-                        <GridTitle>I want to keep remove these images</GridTitle>
+                        <GridTitle>I want to remove these images</GridTitle>
                         <SRLWrapper>
                             <ThumbsDownGrid />
                         </SRLWrapper>

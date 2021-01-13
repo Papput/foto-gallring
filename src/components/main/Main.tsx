@@ -1,28 +1,19 @@
 import React from 'react'
-import { Button } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
 import styled from 'styled-components';
 import AlbumGrid from '../album/AlbumGrid';
 import CreateAlbum from '../album/CreateAlbum'
 
-const Navigation = styled.div`
-    padding-top: 0.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+const Container = styled.div`
+    padding-top: 2rem;
 `;
 
 const Main = () => {
     return (
-        <div>
-            <Navigation>
-                <Link to="log-out">Log out</Link>
-            </Navigation>
-
+        <Container>
             <CreateAlbum />
 
             <AlbumGrid />
-        </div>
+        </Container>
     )
 }
 

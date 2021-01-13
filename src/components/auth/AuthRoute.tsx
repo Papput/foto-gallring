@@ -15,7 +15,7 @@ const AuthRoute: FC<Props> = (props) => {
         return <div>Loading...</div>
     }
     return (
-        auth 
+        !auth.isEmpty 
             ? (<Route {...props} />)
             : <Navigate to="/login" />
     )

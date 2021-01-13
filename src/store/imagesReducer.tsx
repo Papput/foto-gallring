@@ -36,6 +36,14 @@ const initalState: AlbumState = {
 };
 
 export const selectedImagesSelector = createSelector((state: RootState) => state.images, (images) => images.images.filter(image => image.selected === true))
+export const totalImagesSelector = createSelector((state: RootState) => state.images, (images) => {
+
+    const totalImages = images.images.length + images.thumbsDownImages.length + images.thumbsUpImages.length
+    const imagesSelected = images.thumbsUpImages.length
+    const imagesThumbsDown = images.thumbsDownImages.length
+
+    return { totalImages, imagesSelected, imagesThumbsDown }
+})
 
 const imagesReducer = createReducer(initalState, (builder) => {
     
@@ -45,6 +53,8 @@ const imagesReducer = createReducer(initalState, (builder) => {
 
     builder.addCase(clearImageArray, (state) => {
         state.images = [];
+        state.thumbsUpImages = [];
+        state.thumbsDownImages = [];
     });
 
     builder.addCase(toggleImage, (state, action) => {
