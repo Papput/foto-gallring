@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
 import { Routes, Route} from 'react-router-dom';
+// import SimpleReactLightbox from 'simple-react-lightbox';
 import AuthRoute from './components/auth/AuthRoute';
 import Login from './components/auth/login/Login';
 import LogOut from './components/auth/logout/LogOut';
@@ -8,6 +9,8 @@ import ResetPassword from './components/auth/resetPassword/ResetPassword';
 import SignUp from './components/auth/signup/SignUp';
 import Main from './components/main/Main';
 import UploadImagesToAlbum from './components/album/UploadImagesToAlbum';
+import Review from './components/review/Review';
+
 
 function App() {
   return (
@@ -19,6 +22,9 @@ function App() {
                 </AuthRoute>
                 <AuthRoute path="/album/:albumId">
                     <UploadImagesToAlbum />
+                </AuthRoute>
+                <AuthRoute path="/review/:albumId">
+                    <Review />
                 </AuthRoute>
                 <Route path="/log-out">
                     <LogOut />

@@ -31,7 +31,7 @@ const CreateAlbum = () => {
                 owner: auth.uid,
             })
 
-            navigate(`album/${albumRef.id}`);
+            navigate(`/album/${albumRef.id}`);
             
         } catch (err) {
             setError(err.message);

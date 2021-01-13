@@ -7,6 +7,12 @@ import { RootState } from '../../store/rootReducer';
 import Dropzone from '../Dropzone';
 import ImageGrid from './ImageGrid';
 import styled from 'styled-components';
+import { selectedImagesSelector } from '../../store/imagesReducer';
+import CreateAlbumWithImages from './CreateAlbumWithImages';
+
+const StyledCreateAlbumWithImages = styled(CreateAlbumWithImages)`
+    margin-top: 1rem;
+`;
 
 const AlbumTitle = styled.input`
     border: none;
@@ -25,6 +31,7 @@ const UploadImagesToAlbum = () => {
     
     const [album, setAlbum] = useState<firebase.firestore.DocumentData & AlbumData>();
     const {uploadProgress, status} = useSelector((state: RootState) => state.uploadImages);
+    const selectedImages = useSelector(selectedImagesSelector);
     const { totalImages, imagesUploaded} = useSelector((state: RootState) => state.uploadImages);
 
     const inputRef = useRef<HTMLInputElement>();
@@ -76,6 +83,7 @@ const UploadImagesToAlbum = () => {
             {status && <Alert variant={status.type}>{status.message}</Alert>}
             {totalImages && <Alert variant={'success'}>{imagesUploaded} / {totalImages} images successfully uploaded!</Alert>}
             
+            {selectedImages.length > 0 && <StyledCreateAlbumWithImages />}
             <ImageGrid albumId={albumId} />
         </div>
     )

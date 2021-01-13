@@ -1,35 +1,35 @@
 import { useEffect, useState } from "react";
 import { db } from "../firebase";
+import { ADD_IMAGE, CLEAR_IMAGE_ARRAY } from "../store/imagesReducer";
+import { useAppDispatch } from "../store/store";
 
-interface Image {
+export interface ImageDb {
     albums: string[];
     size: number;
-    id: string;
+    id?: string;
     url: string;
     type: string;
     path: string;
     name: string;
+    selected: boolean;
 }
 
 const useGetImages = (albumId: string) => {
-    const [images, setImages] = useState<Image[]>([]);
+    const dispatch = useAppDispatch();
     
     useEffect(() => {
-        console.log('getting images')
-        // .where("albums", "array-contains", `albums/${albumId}`)
         return db.collection("images").where("albums", "array-contains", `albums/${albumId}`).onSnapshot(snapShot => {
-            setImages([]);
+            dispatch({ type: CLEAR_IMAGE_ARRAY})
             snapShot.forEach(doc => {
                 const imageData = {
                     ...doc.data(),
                     id: doc.id,
-                } as Image
-                setImages(prev => [...prev, imageData])
+                    selected: false,
+                } as ImageDb
+                dispatch({ type: ADD_IMAGE, payload: imageData});
             })
         })
-    }, [albumId])
-
-    return { images }
+    }, [albumId, dispatch])
 };
 
 export default useGetImages;

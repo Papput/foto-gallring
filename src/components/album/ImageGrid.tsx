@@ -1,7 +1,9 @@
 import React, { FC } from 'react';
 import { Col, Row } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import useGetImages from '../../hooks/useGetImages';
+import { RootState } from '../../store/rootReducer';
 import Image from './Image';
 
 const StyledRow = styled(Row)`
@@ -13,13 +15,16 @@ type props = {
 }
 
 const ImageGrid: FC<props> = ({albumId}) => {
-    const { images } = useGetImages(albumId);
+    useGetImages(albumId);
+
+    const { images } = useSelector((state: RootState) => state.images);
+    
     return (
         <StyledRow>
             {images.map((image, index) => {
                 return (
                     <Col key={index} sm={6} md={4}>
-                        <Image imageUrl={image.url} />
+                        <Image image={image} />
                     </Col>
                 )
             })}
