@@ -6,7 +6,6 @@ import { RootState } from '../store/rootReducer';
 import { ADD_IMAGES_UPLOADED, CLEAR_ERROR, CLEAR_FILES_UPLOADED, CLEAR_STATUS, EDIT_ERROR, EDIT_STATUS, TOTAL_IMAGES, UPDATE_PROGRESS } from '../store/uploadImagesReducer';
 
 export type ImageQueryData = {
-    id: string;
     name: string;
     size: number;
     type: string;
@@ -55,7 +54,6 @@ const useUploadImages = () => {
                     snapshot.ref.getDownloadURL().then(url => {
                         
                         const image = {
-                            id: file.name,
                             name: file.name,
                             path: snapshot.ref.fullPath,
                             size: file.size,

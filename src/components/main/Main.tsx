@@ -2,6 +2,7 @@ import React from 'react'
 import { Button } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components';
+import AlbumGrid from '../album/AlbumGrid';
 import CreateAlbum from '../album/CreateAlbum'
 
 const Navigation = styled.div`
@@ -19,6 +20,8 @@ const Main = () => {
             </Navigation>
 
             <CreateAlbum />
+
+            <AlbumGrid />
         </div>
     )
 }

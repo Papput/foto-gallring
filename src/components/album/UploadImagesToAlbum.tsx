@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import { Alert, Col, ProgressBar, Row } from 'react-bootstrap';
+import React, { useEffect, useRef, useState } from 'react'
+import { Alert, ProgressBar } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom'
-import styled from 'styled-components';
 import firebase, { db } from '../../firebase';
 import { RootState } from '../../store/rootReducer';
 import Dropzone from '../Dropzone';
-import Image from './Image';
+import ImageGrid from './ImageGrid';
+import styled from 'styled-components';
 
-const StyledRow = styled(Row)`
-    padding-top: 1rem;
+const AlbumTitle = styled.input`
+    border: none;
+    font-size: 2rem;
 `;
 
 type AlbumData = {
@@ -19,12 +20,22 @@ type AlbumData = {
 const UploadImagesToAlbum = () => {
     const { albumId } = useParams();
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(true);
-    const [album, setAlbum] = useState<firebase.firestore.DocumentData & AlbumData>();
-    const { totalImages, imagesUploaded} = useSelector((state: RootState) => state.uploadImages);
-    const [images, setImages] = useState<File[]>([]);
 
+    const [loading, setLoading] = useState(true);
+    
+    const [album, setAlbum] = useState<firebase.firestore.DocumentData & AlbumData>();
     const {uploadProgress, status} = useSelector((state: RootState) => state.uploadImages);
+    const { totalImages, imagesUploaded} = useSelector((state: RootState) => state.uploadImages);
+
+    const inputRef = useRef<HTMLInputElement>();
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        if(inputRef.current.value.length < 2) return;
+        db.collection('albums').doc(albumId).set({
+            title: inputRef.current.value
+        }, { merge: true })
+    }
     
     useEffect(() => {
         console.log(albumId)
@@ -45,7 +56,7 @@ const UploadImagesToAlbum = () => {
             setLoading(false);
         }
         getAlbum()
-    }, [albumId]);
+    }, [albumId, navigate]);
 
     if(loading) {
         return <div>Loading...</div>
@@ -53,21 +64,19 @@ const UploadImagesToAlbum = () => {
 
     return (
         <div>
-            {album?.title && <h1>{album.title}</h1>}
+            
+            {album?.title && 
+                <form onSubmit={e => handleSubmit(e)}>
+                    <AlbumTitle ref={inputRef} defaultValue={album.title} />
+                </form>
+            }
             <Dropzone />
             {uploadProgress !== null && <ProgressBar variant="success" animated now={uploadProgress} /> }
 
             {status && <Alert variant={status.type}>{status.message}</Alert>}
             {totalImages && <Alert variant={'success'}>{imagesUploaded} / {totalImages} images successfully uploaded!</Alert>}
-            <StyledRow>
-                {images.map(image => {
-                    return (
-                        <Col sm={6} md={4}>
-                            <Image file={image} />
-                        </Col>
-                    )
-                })}
-            </StyledRow>
+            
+            <ImageGrid albumId={albumId} />
         </div>
     )
 }

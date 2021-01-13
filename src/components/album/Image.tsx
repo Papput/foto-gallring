@@ -3,22 +3,17 @@ import { Card } from 'react-bootstrap';
 import styled from 'styled-components';
 
 type Props = {
-    file: File,
+    imageUrl: string,
 }
 
 const CardImageContainer = styled(Card)`
     margin-bottom: 1rem;
 `;
 
-const Image: FC<Props> = ({ file }) => {
+const Image: FC<Props> = ({ imageUrl }) => {
     return (
         <CardImageContainer>
-            <Card.Img variant="top" src={URL.createObjectURL(file) || "https://via.placeholder.com/150"} />
-            <Card.Body>
-                <Card.Title>{file.name}</Card.Title>
-                <Card.Text>{file.size} bytes</Card.Text>
-                <Card.Text>{file.type}</Card.Text>
-            </Card.Body>
+            <Card.Img variant="top" src={imageUrl || "https://via.placeholder.com/150"} />
         </CardImageContainer>
     )
 }
