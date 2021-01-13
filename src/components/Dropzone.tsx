@@ -1,6 +1,7 @@
 import React, { Dispatch, FC, SetStateAction, useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
 import styled from 'styled-components';
+import useUploadImages from '../hooks/useUploadImages';
 
 const DropZoneDiv = styled.div`
     display: flex;
@@ -14,11 +15,12 @@ const DropZoneDiv = styled.div`
 `
 type props = {
     className?: string;
-    setImages: Dispatch<SetStateAction<File[]>>
 }
-const Dropzone: FC<props> = ({className, setImages}) => {
+const Dropzone: FC<props> = ({className}) => {
+    const { uploadImages } = useUploadImages();
+    
     const onDrop = useCallback( (acceptedFiles: File[]) => {
-        setImages(prev => [...prev, ...acceptedFiles]);
+        uploadImages(acceptedFiles)
     }, [])
     const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop})
 

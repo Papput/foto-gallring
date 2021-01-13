@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Alert, Col, FormControl, InputGroup, ProgressBar, Row } from 'react-bootstrap';
+import { Alert, Col, ProgressBar, Row } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components';
 import firebase, { db } from '../../firebase';
-import useUploadImages from '../../hooks/useUploadImages';
+import { RootState } from '../../store/rootReducer';
 import Dropzone from '../Dropzone';
 import Image from './Image';
 
@@ -15,14 +16,16 @@ type AlbumData = {
     owner?: string;
     title?: string;
 }
-const CreateAlbum = () => {
-    const { uploadProgress, status} = useUploadImages();
+const UploadImagesToAlbum = () => {
     const { albumId } = useParams();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [album, setAlbum] = useState<firebase.firestore.DocumentData & AlbumData>();
+    const { totalImages, imagesUploaded} = useSelector((state: RootState) => state.uploadImages);
     const [images, setImages] = useState<File[]>([]);
 
+    const {uploadProgress, status} = useSelector((state: RootState) => state.uploadImages);
+    
     useEffect(() => {
         console.log(albumId)
         const getAlbum = async () => {
@@ -51,10 +54,11 @@ const CreateAlbum = () => {
     return (
         <div>
             {album?.title && <h1>{album.title}</h1>}
-            <Dropzone  setImages={setImages} />
+            <Dropzone />
             {uploadProgress !== null && <ProgressBar variant="success" animated now={uploadProgress} /> }
 
             {status && <Alert variant={status.type}>{status.message}</Alert>}
+            {totalImages && <Alert variant={'success'}>{imagesUploaded} / {totalImages} images successfully uploaded!</Alert>}
             <StyledRow>
                 {images.map(image => {
                     return (
@@ -68,4 +72,4 @@ const CreateAlbum = () => {
     )
 }
 
-export default CreateAlbum;
+export default UploadImagesToAlbum;

@@ -2,9 +2,10 @@ import { combineReducers } from '@reduxjs/toolkit';
 import { firebaseReducer } from 'react-redux-firebase'
 
 import albumReducer from './albumReducer';
+import uploadImagesReducer from './uploadImagesReducer';
 const reducers = {
     firebase: firebaseReducer,
-    album: albumReducer,
+    uploadImages: uploadImagesReducer,
 }
 
 const rootReducer = combineReducers(reducers)

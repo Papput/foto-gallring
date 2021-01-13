@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { db, storage } from '../firebase';
 import { RootState } from '../store/rootReducer';
+import { ADD_IMAGES_UPLOADED, CLEAR_ERROR, CLEAR_FILES_UPLOADED, CLEAR_STATUS, EDIT_ERROR, EDIT_STATUS, TOTAL_IMAGES, UPDATE_PROGRESS } from '../store/uploadImagesReducer';
 
 export type ImageQueryData = {
     id: string;
@@ -22,13 +24,17 @@ export interface MessageObj {
 }
 
 const useUploadImages = () => {
+    const dispatch = useDispatch();
     const auth = useSelector((state: RootState) => state.firebase.auth);
-    const [uploadProgress, setUploadProgress] = useState(null);
-    const [uploadedImages, setUploadedImages] = useState<ImageQueryData[]>(null);
-    const [status, setStatus] = useState<MessageObj>(null);
-    const [error, setError] = useState<string>(null);
+    const { albumId } = useParams();
     
-    const uploadImages = async (files: File[], albumId: string) => {
+    const uploadImages = async (files: File[]) => {
+        dispatch({ type: CLEAR_ERROR});
+        dispatch({ type: CLEAR_STATUS});
+        dispatch({ type: CLEAR_FILES_UPLOADED});
+
+        dispatch({ type: TOTAL_IMAGES, payload: files.length})
+
         files.forEach((file, index) => {
             try {
                 const fileRef = storage.ref(`images/${auth.uid}/${file.name}`)
@@ -36,16 +42,16 @@ const useUploadImages = () => {
                 const uploadTask = fileRef.put(file);
 
                 uploadTask.on('state_changed', taskSnapshot => {
-                    setUploadProgress(Math.round((taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) * 100));
+                    const progress = Math.round((taskSnapshot.bytesTransferred / taskSnapshot.totalBytes) * 100)
+                    dispatch({
+                        type: UPDATE_PROGRESS,
+                        payload: progress
+                    })
                 });
 
                 uploadTask.then(snapshot => {
-                    setStatus({
-                        type: 'success', 
-                        message: `Image ${index+1} / ${files.length} successfully uploaded`
-                    });
-                    setUploadProgress(null);
-        
+                    dispatch({type: ADD_IMAGES_UPLOADED})
+                    
                     snapshot.ref.getDownloadURL().then(url => {
                         
                         const image = {
@@ -57,29 +63,30 @@ const useUploadImages = () => {
                             albums: [`albums/${albumId}`],
                             url,
                         };
-        
-                        setUploadedImages(prev => [...prev, image]);
+                        
+                        db.collection('images').add(image)
                     });
                 })
 
             } catch (err) {
                 console.error("File upload triggered an error!", err);
-                setError(err);
-                setStatus({
-                    type: "warning",
-                    message: `Image could not be uploaded due to an error (${err.code})`
-                });
+                dispatch({
+                    type: EDIT_ERROR,
+                    payload: err
+                })
+
+                dispatch({
+                    type: EDIT_STATUS,
+                    payload: {
+                        type: "warning",
+                        message: `Image could not be uploaded due to an error (${err.code})`
+                    }
+                })
             }
         })
-
-        if(uploadedImages) {
-            uploadedImages.forEach(image => {
-                db.collection('images').add(image)
-            })
-        }
     }
 
-    return { uploadProgress, error, uploadImages, uploadedImages, status }
+    return { uploadImages }
 }
 
 export default useUploadImages
