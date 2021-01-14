@@ -15,7 +15,7 @@ const AlbumGrid: FC = () => {
             {albums.map((album) => {
                 return (
                     <Col key={album.id} sm={6} md={4}>
-                        <Link to={`/album/${album.id}`}>{album.title}</Link>
+                        <Link to={`/album/${album.id}`}>{album.title} {album?.date}</Link>
                     </Col>
                 )
             })}

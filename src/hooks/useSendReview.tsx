@@ -1,53 +1,59 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 import { db } from '../firebase';
 import { RootState } from '../store/rootReducer';
-import useDeleteAlbum from './useDeleteAlbum';
 
 const useSendReview = () => {
-    const { deleteAlbum, error: deleteAlbumError } = useDeleteAlbum();
     const [ error, setError ] = useState<string>(null);
-    const [ isSuccess, setIsSuccess ] = useState<boolean>(null);
     const { images, thumbsUpImages } = useSelector((state: RootState) => state.images);
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        if(deleteAlbumError) {
-            setError(deleteAlbumError)
-        }
-    }, [deleteAlbumError])
     const sendReview = async (albumId: string ) => {
+        console.log('sending');
 
-        if(images.length !== 0 && thumbsUpImages.length > 0) {
+        console.log(images, thumbsUpImages);
+        if(images.length !== 0 && thumbsUpImages.length === 0) {
+            console.log('validation failed')
             return setError('All images must be reviewed, and at least one must thumbed up');
         }
 
         try {
-            const albumRef = await db.collection("albums").doc(albumId).get();
-            const albumData = albumRef.data();
-            const date = new Date().toDateString();
+            console.log(albumId)
+            console.log('album Ref')
+            const albumRef = db.collection("albums").doc(albumId);
+            console.log('album Data')
+            const albumDoc = await albumRef.get();
+            console.log(albumDoc)
+            const albumData = albumDoc.data();
+            console.log(albumData)
+
+            console.log('Date')
+            const date = new Date().toUTCString();
+            console.log(albumRef, albumData, date);
             //Create Album
             const newAlbumRef = await db.collection("albums").add({
                 owner: albumData.owner,
-                name: `${albumData.name} ${date}`,
+                date: date,
+                title: albumData.title,
             })
 
             // Add Upvoted images to album
             thumbsUpImages.forEach(image => {
+                console.log('inside forEeach loop')
                 db.collection("images").doc(image.id).set({
                     albums: [...image.albums, `albums/${newAlbumRef.id}`],
                 }, { merge: true })
             });
 
-            await deleteAlbum(albumId);
-            setIsSuccess(true);
+            navigate('/success');
 
         } catch (err) {
-            setIsSuccess(false);
             setError(err.message);
         }
     }
 
-    return { sendReview, error, isSuccess, deleteAlbumError };
+    return { sendReview, error };
 }
 
 export default useSendReview

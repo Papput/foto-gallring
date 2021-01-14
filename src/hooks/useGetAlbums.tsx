@@ -8,6 +8,7 @@ interface Album {
     owner: string;
     title: string;
     thumbNailUrl?: string;
+    date?: string;
 }
 
 const useGetAlbums = () => {

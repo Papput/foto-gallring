@@ -32,7 +32,7 @@ const Review = () => {
     return (
         <div>
             {images.length === 0 && thumbsUpImages.length > 0 && 
-                <SendReview />
+                <SendReview albumId={albumId} />
             }
             {images.length > 0 && 
                 <SimpleReactLightbox>

@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react'
-import { Button } from 'react-bootstrap';
-import { useNavigate } from 'react-router';
+import React, { FC } from 'react'
+import { Alert, Button } from 'react-bootstrap';
 import styled from 'styled-components';
 import useSendReview from '../../hooks/useSendReview';
 
@@ -10,21 +9,17 @@ const SendReviewButton = styled(Button)`
     margin-top: 2rem;
 `;
 
-
-const SendReview = () => {
-    const { sendReview, isSuccess } = useSendReview();
-    const navigate = useNavigate();
-    
-    useEffect(() => {
-        if(isSuccess) {
-            navigate('/success')
-        }
-    }, [isSuccess])
+type Props = {
+    albumId: string;
+}
+const SendReview: FC<Props> = ({albumId}) => {
+    const { sendReview, error } = useSendReview();
     return (
         <>
-            <SendReviewButton onClick={sendReview}>
+            <SendReviewButton onClick={() => sendReview(albumId)}>
                 Send images!
             </SendReviewButton>
+            {error && <Alert variant={"danger"}>{error}</Alert>}
         </>
     )
 }
