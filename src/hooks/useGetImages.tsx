@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { db } from "../firebase";
 import { ADD_IMAGE, CLEAR_IMAGE_ARRAY } from "../store/imagesReducer";
 import { useAppDispatch } from "../store/store";

@@ -1,12 +1,7 @@
 import React, { FC } from 'react';
-import { Col, ListGroup, Row } from 'react-bootstrap';
+import { ListGroup } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
 import useGetAlbums from '../../hooks/useGetAlbums';
-
-const StyledRow = styled(Row)`
-    padding-top: 1rem;
-`;
 
 const AlbumGrid: FC = () => {
     const { albums } = useGetAlbums();

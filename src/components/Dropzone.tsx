@@ -1,10 +1,8 @@
 import React, { FC, useCallback } from 'react'
 import { Alert, ProgressBar } from 'react-bootstrap';
 import { useDropzone } from 'react-dropzone'
-import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import useUploadImages from '../hooks/useUploadImages';
-import { RootState } from '../store/rootReducer';
 
 const DropZoneDiv = styled.div`
     display: flex;

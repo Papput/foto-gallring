@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import { Button, Col, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import useGetImages from '../../hooks/useGetImages';
 import { THUMBS_DOWN_IMAGE, THUMBS_UP_IMAGE } from '../../store/imagesReducer';
 import { RootState } from '../../store/rootReducer';
 import Image from '../album/Image';

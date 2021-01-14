@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 
 export const useAuth = () => {
     const navigate = useNavigate();
-    const [ loading, setLoading ] = useState(true);
     const [ errorMessage, setErrorMessage ] = useState<null | string>(null);
     const [ message, setMessage ] = useState<null | string>(null);
 
@@ -51,5 +50,5 @@ export const useAuth = () => {
         }
     }
 
-    return { login, logOut, errorMessage, loading, message, signUp, resetPassword }
+    return { login, logOut, errorMessage, message, signUp, resetPassword }
 }
