@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { ImageDb } from '../../hooks/useGetImages';
 import { TOGGLE_IMAGE } from '../../store/imagesReducer';
-import {FaRegTrashAlt} from "react-icons/fa"
+import {FcRemoveImage} from "react-icons/fc"
 import useRemoveImageFromAlbum from '../../hooks/useRemoveImageFromAlbum';
 import { useParams } from 'react-router';
 
@@ -15,12 +15,13 @@ type Props = {
 }
 
 const CardImageContainer = styled(Card)`
-    margin-bottom: 1rem;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
     border: ${(props => props.selected ? "6px solid #d4edda": "none")};
     position: relative;
 `;
 
-const TrashIcon = styled(FaRegTrashAlt)`
+const TrashIcon = styled(FcRemoveImage)`
     position: absolute;
     right: 5px;
     top: 5px;

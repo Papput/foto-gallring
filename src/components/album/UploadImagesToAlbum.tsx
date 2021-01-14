@@ -10,6 +10,7 @@ import styled from 'styled-components';
 import { selectedImagesSelector } from '../../store/imagesReducer';
 import CreateAlbumWithImages from './CreateAlbumWithImages';
 import {FaRegTrashAlt} from "react-icons/fa"
+import {BiClipboard} from "react-icons/bi"
 import useDeleteAlbum from '../../hooks/useDeleteAlbum';
 
 
@@ -25,9 +26,19 @@ const AlbumTitle = styled.input`
 
 const FormContainer = styled.div`
     display: flex;
-    flex-direction: column;
+    padding: 1rem 0rem;
 `;
 
+const ClipBoardIco = styled(BiClipboard)`
+    font-size: 2rem;
+    cursor: pointer;
+    margin-right: 0.25rem;
+`
+const ClipBoardButton = styled(Button)`
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+`
 const TrashIcon = styled(FaRegTrashAlt)`
     font-size: 2rem;
     cursor: pointer;
@@ -106,27 +117,30 @@ const UploadImagesToAlbum = () => {
         <div>
             
             <FormContainer>
+                {images.length !== 0 &&( 
+                    <>
+                        <ClipBoardButton ref={copyButtonRef} variant="outline-info" onClick={handleReviewClick}>
+                            <ClipBoardIco />
+                            Get review link
+                        </ClipBoardButton>
+                        <Overlay target={copyButtonRef.current} show={show} placement="bottom">
+                            {(props) => (
+                                <Tooltip id="overlay-example" {...props}>
+                                    {process.env.REACT_APP_REVIEW_PATH}${albumId} copied to clipboard
+                                </Tooltip>
+                            )}
+                        </Overlay>
+    
+                    </>
+                )}
                 <TrashIcon onClick={(e) => handleDelete(e)} />
+            </FormContainer>
                 {album?.title && 
                     <form onSubmit={e => handleSubmit(e)}>
                         <AlbumTitle ref={inputRef} defaultValue={album.title} />
                     </form>
                 }
-            </FormContainer>
             <Dropzone />
-            {images.length !== 0 &&( 
-                <>
-                    <Button ref={copyButtonRef} variant="primary" onClick={handleReviewClick}>Get review link</Button>
-                    <Overlay target={copyButtonRef.current} show={show} placement="bottom">
-                        {(props) => (
-                            <Tooltip id="overlay-example" {...props}>
-                                {process.env.REACT_APP_REVIEW_PATH}${albumId} copied to clipboard
-                            </Tooltip>
-                        )}
-                    </Overlay>
-
-                </>
-            )}
             {selectedImages.length > 0 && <StyledCreateAlbumWithImages />}
             <ImageGrid albumId={albumId} />
         </div>

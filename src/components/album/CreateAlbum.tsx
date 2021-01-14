@@ -1,9 +1,19 @@
 import React, { useRef } from 'react'
 import { Alert, Button, Form, InputGroup } from 'react-bootstrap';
+import { FcStackOfPhotos } from "react-icons/fc";
 
 import { useNavigate } from 'react-router-dom'
+import styled from 'styled-components';
 import useCreateAlbum from '../../hooks/useCreateAlbum';
- 
+
+const StackOfPhotos = styled(FcStackOfPhotos)`
+    width: 32px;
+    height: 32px;
+`;
+const AlbumInputField = styled(Form.Control)`
+    height: auto;
+`;
+
 const CreateAlbum = () => {
     const navigate = useNavigate();
     const albumImputRef = useRef<HTMLInputElement>();
@@ -21,9 +31,9 @@ const CreateAlbum = () => {
             <Form onSubmit={(e: React.FormEvent<HTMLFormElement>) => handleSubmit(e)} >
                 <Form.Label htmlFor="album-name">Album Name</Form.Label>
                 <InputGroup className="mb-3">
-                    <Form.Control ref={albumImputRef} id="album-name" type="text" placeholder="Enter Album name" />
+                    <AlbumInputField ref={albumImputRef} id="album-name" type="text" placeholder="Enter Album name" />
                     <InputGroup.Append>
-                        <Button type="submit" variant="outline-secondary">+</Button>
+                        <Button type="submit" variant="outline-secondary"><StackOfPhotos /></Button>
                     </InputGroup.Append>
                 </InputGroup>
             </Form>

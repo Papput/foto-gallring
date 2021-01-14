@@ -3,7 +3,12 @@ import { Alert, ProgressBar } from 'react-bootstrap';
 import { useDropzone } from 'react-dropzone'
 import styled from 'styled-components';
 import useUploadImages from '../hooks/useUploadImages';
+import { BiCloudUpload } from "react-icons/bi";
 
+const CloudUpload = styled(BiCloudUpload)`
+    height: 6rem;
+    width: 6rem;
+`
 const DropZoneDiv = styled.div`
     display: flex;
     justify-content: center;
@@ -29,11 +34,7 @@ const Dropzone: FC<props> = ({className}) => {
         <>
             <DropZoneDiv className={className} {...getRootProps()}>
                 <input {...getInputProps()} />
-                {
-                    isDragActive ?
-                    <p>Drop the files here ...</p> :
-                    <p>Drag 'n' drop some files here, or click to select files</p>
-                }
+                <CloudUpload />
             </DropZoneDiv>
             {uploadProgress !== null && <ProgressBar variant="success" animated now={uploadProgress} /> }
 
