@@ -28,18 +28,14 @@ describe('Main component', () => {
         })
 
         
-        const loading = screen.getByText('...loading')
-        expect(loading).toBeInTheDocument();
-        
         await waitFor(() => {
-            
+
             const LoginButton = screen.getByRole('button', { name: /sign in/i});
             const EmailLable = screen.getByLabelText('Email address')
             const PasswordLable = screen.getByLabelText('Password')
-            
             const EmailInput = screen.getByRole('textbox', { name: 'Email address'}); 
-            const PasswordInput = screen.getByPlaceholderText(/password/i) 
-            expect(screen.queryByText('...loading')).toBeNull();
+            const PasswordInput = screen.getByPlaceholderText(/password/i)
+
             expect(EmailLable).toBeInTheDocument();
             expect(LoginButton).toBeInTheDocument();
             expect(PasswordLable).toBeInTheDocument();
@@ -48,7 +44,7 @@ describe('Main component', () => {
         })
     });
 
-    test('Renders Create Album form if Logged in', async () => {
+    test('Renders Create Album form', async () => {
         const history = createMemoryHistory();
         window.history.pushState({}, '', '/login')
         act(() => {
@@ -63,7 +59,7 @@ describe('Main component', () => {
             );
         })
 
-        const CreateAlbumButton = screen.getByRole('button', { name: '+'});
+        const CreateAlbumButton = screen.getByRole('button', { name: 'Create New Album'});
         const PasswordInput = screen.getByPlaceholderText(/Enter Album name/i) 
         const AlbumFormLable = screen.getByLabelText('Album Name')
 

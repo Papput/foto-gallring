@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../../hooks/useAuth';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/rootReducer';
+import LoaderComponent from '../../loader/LoaderComponent';
 
 const StyledCol = styled(Col)`
     margin: 0 auto;
@@ -36,7 +37,7 @@ const Login = () => {
     }, [navigate, auth]);
 
     if (!auth.isLoaded) {
-        return <div>...loading</div>
+        return <LoaderComponent />
     }
 
     return (

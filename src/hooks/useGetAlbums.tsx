@@ -16,7 +16,6 @@ const useGetAlbums = () => {
     const auth = useSelector((state: RootState) => state.firebase.auth);
     
     useEffect(() => {
-        console.log('getting album')
         return db.collection("albums").where("owner", "==", `${auth.uid}`).onSnapshot(snapShot => {
             setAlbums([])
             snapShot.forEach(doc => {

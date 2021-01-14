@@ -33,7 +33,7 @@ const CreateAlbum = () => {
                 <InputGroup className="mb-3">
                     <AlbumInputField ref={albumImputRef} id="album-name" type="text" placeholder="Enter Album name" />
                     <InputGroup.Append>
-                        <Button type="submit" variant="outline-secondary"><StackOfPhotos /></Button>
+                        <Button type="submit" variant="outline-secondary"><StackOfPhotos aria-label="Create New Album" /></Button>
                     </InputGroup.Append>
                 </InputGroup>
             </Form>

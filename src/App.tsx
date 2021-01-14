@@ -1,7 +1,6 @@
 import React from 'react';
 import { Container } from 'react-bootstrap';
 import { Routes, Route} from 'react-router-dom';
-// import SimpleReactLightbox from 'simple-react-lightbox';
 import AuthRoute from './components/auth/AuthRoute';
 import Login from './components/auth/login/Login';
 import LogOut from './components/auth/logout/LogOut';
@@ -12,6 +11,7 @@ import UploadImagesToAlbum from './components/album/UploadImagesToAlbum';
 import Review from './components/review/Review';
 import Navbar from './components/navbar/NavbarComponent';
 import SuccessPage from './components/review/SuccessPage';
+import LoaderComponent from './components/loader/LoaderComponent';
 
 
 function App() {
@@ -20,6 +20,9 @@ function App() {
         <Navbar />
         <Container>
             <Routes>
+                <Route path="/loading">
+                    <LoaderComponent />
+                </Route>
                 <AuthRoute path="/">
                     <Main />
                 </AuthRoute>

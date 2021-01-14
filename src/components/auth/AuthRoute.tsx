@@ -4,6 +4,7 @@ import { Navigate, Route} from 'react-router-dom';
 import { isLoaded } from 'react-redux-firebase';
 import { useSelector } from 'react-redux'
 import { RootState } from '../../store/rootReducer';
+import LoaderComponent from '../loader/LoaderComponent';
 
 type Props = {
     path?: string
@@ -12,7 +13,7 @@ type Props = {
 const AuthRoute: FC<Props> = (props) => {
     const auth = useSelector((state: RootState) => state.firebase.auth);
     if(!isLoaded) {
-        return <div>Loading...</div>
+        return <LoaderComponent />
     }
     return (
         !auth.isEmpty 

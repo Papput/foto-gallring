@@ -27,9 +27,6 @@ describe('Login component', () => {
         })
 
         
-        const loading = screen.getByText('...loading')
-        expect(loading).toBeInTheDocument();
-        
         
         await waitFor(() => {
             const LoginButton = screen.getByRole('button', { name: /sign in/i});
@@ -38,7 +35,6 @@ describe('Login component', () => {
             
             const EmailInput = screen.getByRole('textbox', { name: 'Email address'}); 
             const PasswordInput = screen.getByPlaceholderText(/password/i) 
-            expect(screen.queryByText('...loading')).toBeNull();
             expect(EmailLable).toBeInTheDocument();
             expect(LoginButton).toBeInTheDocument();
             expect(PasswordLable).toBeInTheDocument();

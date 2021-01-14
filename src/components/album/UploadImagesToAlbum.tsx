@@ -12,6 +12,7 @@ import CreateAlbumWithImages from './CreateAlbumWithImages';
 import {FaRegTrashAlt} from "react-icons/fa"
 import {BiClipboard} from "react-icons/bi"
 import useDeleteAlbum from '../../hooks/useDeleteAlbum';
+import LoaderComponent from '../loader/LoaderComponent';
 
 
 const StyledCreateAlbumWithImages = styled(CreateAlbumWithImages)`
@@ -71,7 +72,6 @@ const UploadImagesToAlbum = () => {
     }
     
     useEffect(() => {
-        console.log(albumId)
         const getAlbum = async () => {
             try {
                 const albumRef = db.collection('albums').doc(albumId);
@@ -110,7 +110,7 @@ const UploadImagesToAlbum = () => {
     }
 
     if(loading) {
-        return <div>Loading...</div>
+        return <LoaderComponent />
     }
 
     return (
