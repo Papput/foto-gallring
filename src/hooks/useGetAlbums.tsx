@@ -17,7 +17,6 @@ const useGetAlbums = () => {
     
     useEffect(() => {
         console.log('getting album')
-        // .where("albums", "array-contains", `albums/${albumId}`)
         return db.collection("albums").where("owner", "==", `${auth.uid}`).onSnapshot(snapShot => {
             setAlbums([])
             snapShot.forEach(doc => {

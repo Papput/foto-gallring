@@ -28,7 +28,7 @@ const Dropzone: FC<props> = ({className}) => {
     const onDrop = useCallback( (acceptedFiles: File[]) => {
         uploadImages(acceptedFiles)
     }, [uploadImages])
-    const {getRootProps, getInputProps, isDragActive} = useDropzone({onDrop, accept: 'image/jpeg, image/png'})
+    const {getRootProps, getInputProps} = useDropzone({onDrop, accept: 'image/jpeg, image/png'})
 
     return (
         <>

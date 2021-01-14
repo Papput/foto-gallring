@@ -18,12 +18,6 @@ const GridArea = styled.div`
 const GridTitle = styled.h2`
 
 `;
-const callbacks = {
-    onSlideChange: object => console.log('onSlideChange',object),
-    onLightboxOpened: object => console.log('onLightboxOpened', object),
-    onLightboxClosed: object => console.log('onLightboxClosed', object),
-    onCountSlides: object => console.log('onCountSlides', object)
-};
 
 const Review = () => {
     const {albumId} = useParams();
@@ -38,7 +32,7 @@ const Review = () => {
                 <SimpleReactLightbox>
                     <GridArea border={thumbsUpImages.length || thumbsUpImages.length ? true : false} >
                         <GridTitle>Please pick images you want to keep</GridTitle>
-                        <SRLWrapper callBakcs={callbacks} >
+                        <SRLWrapper >
                             <ReviewGrid albumId={albumId} />
                         </SRLWrapper>
                     </GridArea>

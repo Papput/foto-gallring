@@ -22,7 +22,6 @@ export const useAuth = () => {
     const logOut = async () => {
 
         try{
-            console.log('logging out');
             await auth.signOut();
         } catch(err) {
             console.log(err.message);
