@@ -8,14 +8,16 @@ import { TOGGLE_IMAGE } from '../../store/imagesReducer';
 type Props = {
     image: ImageDb;
     canBeToggled?: boolean;
+    canBeDeleted?: boolean;
 }
 
 const CardImageContainer = styled(Card)`
     margin-bottom: 1rem;
-    border: ${(props => props.selected ? "6px solid #d4edda": "none")}; 
+    border: ${(props => props.selected ? "6px solid #d4edda": "none")};
+    position: relative;
 `;
 
-const Image: FC<Props> = ({ image, canBeToggled = true }) => {
+const Image: FC<Props> = ({ image, canBeToggled = true, canBeDeleted = false }) => {
     const dispatch = useDispatch();
     return (
         <CardImageContainer selected={image.selected} onClick={canBeToggled ? () => dispatch({ type: TOGGLE_IMAGE, payload: image }) : null } >

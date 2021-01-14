@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Alert, Button, Card, Col, Form } from 'react-bootstrap';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../../hooks/useAuth';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/rootReducer';
 
 const StyledCol = styled(Col)`
     margin: 0 auto;
@@ -25,6 +27,18 @@ const Login = () => {
     const [ email, setEmail ] = useState("");
     const [ password, setPassword ] = useState("");
     const { login, errorMessage } = useAuth();
+    const auth = useSelector((state: RootState) => state.firebase.auth);
+    const navigate = useNavigate();
+    useEffect(() => {
+        if(!auth.isEmpty) {
+            navigate('/');
+        }
+    }, [navigate, auth]);
+
+    if (!auth.isLoaded) {
+        return <div>...loading</div>
+    }
+
     return (
         <StyledCol sm={6}>
             <H1>Sign in</H1>
