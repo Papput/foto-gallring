@@ -36,7 +36,7 @@ const Review = () => {
             }
             {images.length > 0 && 
                 <SimpleReactLightbox>
-                    <GridArea border={true} >
+                    <GridArea border={thumbsUpImages.length || thumbsUpImages.length ? true : false} >
                         <GridTitle>Please pick images you want to keep</GridTitle>
                         <SRLWrapper callBakcs={callbacks} >
                             <ReviewGrid albumId={albumId} />
@@ -48,7 +48,7 @@ const Review = () => {
             
             {thumbsUpImages.length > 0 && 
                 <SimpleReactLightbox>
-                    <GridArea border={true}>
+                    <GridArea border={thumbsUpImages.length ? true : false}>
                         <GridTitle>I want to keep these images</GridTitle>
                         <SRLWrapper>
                             <ThumbsUpGrid />            

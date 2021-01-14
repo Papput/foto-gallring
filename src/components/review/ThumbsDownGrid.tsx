@@ -1,22 +1,20 @@
 import React from 'react'
-import { Button, Col, Row } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
+import { Col, Row } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { THUMBS_UP_IMAGE } from '../../store/imagesReducer';
 import { RootState } from '../../store/rootReducer';
 import Image from '../album/Image';
+import ThumbsUpButton from './ThumbsUpButton';
 
 const StyledRow = styled(Row)`
     padding-top: 1rem;
 `;
 
-const ButtonContainer = styled.div`
-    display: flex;
-    justify-content: flex-end;
+const VoteContainer = styled.div`
+    position: relative;
 `;
 
 const ThumbsDownGrid = () => {
-    const dispatch = useDispatch();
 
     const { thumbsDownImages } = useSelector((state: RootState) => state.images);
     return (
@@ -24,10 +22,10 @@ const ThumbsDownGrid = () => {
             {thumbsDownImages.map((image, index) => {
                 return (
                     <Col className={"mb-5"} key={index} sm={6} md={4}>
-                        <Image image={image} canBeToggled={false} />
-                        <ButtonContainer>
-                            <Button variant="success" onClick={() => dispatch({type: THUMBS_UP_IMAGE, payload: image})}>Yaaay!</Button>
-                        </ButtonContainer>
+                        <VoteContainer>
+                            <Image image={image} canBeToggled={false} />
+                            <ThumbsUpButton image={image} />
+                        </VoteContainer>
                     </Col>
                 )
             })}

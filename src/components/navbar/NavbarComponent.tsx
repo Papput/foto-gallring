@@ -8,6 +8,8 @@ import { totalImagesSelector } from '../../store/imagesReducer';
 
 const SendReviewTotalImages = styled.h2`
     font-size: 2rem;
+    margin-right: 1rem;
+    margin-bottom: 0;
 `;
 
 const NavbarComponent = () => {
@@ -20,7 +22,7 @@ const NavbarComponent = () => {
             <Routes>
                 <Route path="/review/:albumId">
                     {totalImages > 0 && (
-                        <SendReviewTotalImages>
+                        <SendReviewTotalImages className={'ml-auto'}>
                             <span className="text-success">{imagesSelected}</span> / <span>{totalImages}</span>
                         </SendReviewTotalImages>)
                     }

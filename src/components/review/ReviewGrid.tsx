@@ -1,17 +1,18 @@
 import React, { FC } from 'react';
-import { Button, Col, Row } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
+import { Col, Row } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { THUMBS_DOWN_IMAGE, THUMBS_UP_IMAGE } from '../../store/imagesReducer';
+import { ImageDb } from '../../hooks/useGetImages';
 import { RootState } from '../../store/rootReducer';
 import Image from '../album/Image';
+import ThumbsDownButton from './ThumbsDownButton';
+import ThumbsUpButton from './ThumbsUpButton';
 
 const StyledRow = styled(Row)`
     padding-top: 1rem;
 `;
-const ButtonContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
+const VoteContainer = styled.div`
+    position: relative;
 `;
 
 type props = {
@@ -19,20 +20,18 @@ type props = {
 }
 
 const ReviewGrid: FC<props> = () => {
-    const dispatch = useDispatch();
-
     const { images } = useSelector((state: RootState) => state.images);
     
     return (
         <StyledRow>
-            {images.map((image, index) => {
+            {images.map((image: ImageDb, index) => {
                 return (
                     <Col className={"mb-5"} key={index} sm={6} md={4}>
-                        <Image image={image} canBeToggled={false} />
-                        <ButtonContainer>
-                            <Button variant="danger" onClick={() => dispatch({type: THUMBS_DOWN_IMAGE, payload: image})}>Buuuu!</Button>
-                            <Button variant="success" onClick={() => dispatch({type: THUMBS_UP_IMAGE, payload: image})}>Yaaay!</Button>
-                        </ButtonContainer>
+                        <VoteContainer>
+                            <Image image={image} canBeToggled={false} />
+                            <ThumbsDownButton image={image}  />
+                            <ThumbsUpButton image={image} />
+                        </VoteContainer>
                     </Col>
                 )
             })}
