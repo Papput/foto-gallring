@@ -1,17 +1,20 @@
-import React, { FC, useRef, useState } from 'react'
+import React, { FC, useRef } from 'react'
 import { Alert, Button, Form, InputGroup } from 'react-bootstrap';
+import { useNavigate } from 'react-router';
 import useCreateAlbum from '../../hooks/useCreateAlbum';
 
 type props = {
     className?: string;
 }
 const CreateAlbumWithImages: FC<props> = ({className}) => {
+    const navigate = useNavigate();
     const { error, createNewAlbum} = useCreateAlbum();
 
     const albumImputRef = useRef<HTMLInputElement>();
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        createNewAlbum(albumImputRef.current.value);
+        const albumId = await createNewAlbum(albumImputRef.current.value);
+        navigate(`/album/${albumId}`);
     }
 
     return (

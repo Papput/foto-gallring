@@ -1,40 +1,18 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import { Alert, Button, Form, InputGroup } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
-import styled from 'styled-components';
-import { db } from '../../firebase';
-import { RootState } from '../../store/rootReducer';
 
 import { useNavigate } from 'react-router-dom'
+import useCreateAlbum from '../../hooks/useCreateAlbum';
  
-// const  = styled.div`
-//     margin-top: 1rem;
-// `
 const CreateAlbum = () => {
     const navigate = useNavigate();
-    const auth = useSelector((state: RootState) => state.firebase.auth);
     const albumImputRef = useRef<HTMLInputElement>();
-    const [error, setError] = useState<null | string>(null)
+    const {error, createNewAlbum} = useCreateAlbum();
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
-        setError(null);
-        console.log('Wanna create new album')
-        if(!albumImputRef.current) return;
-        if(albumImputRef.current.value.length < 2) {
-            setError('Album length must contain at least 2 letters')
-        }
-
-        try {
-            const albumRef = await db.collection("albums").add({
-                title: albumImputRef.current.value,
-                owner: auth.uid,
-            })
-
-            navigate(`/album/${albumRef.id}`);
-            
-        } catch (err) {
-            setError(err.message);
+        const albumId = await createNewAlbum(albumImputRef.current.value);
+        if(albumId) {
+            navigate(`/album/${albumId}`)
         }
     }
 

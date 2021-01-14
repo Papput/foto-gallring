@@ -24,7 +24,7 @@ const ImageGrid: FC<props> = ({albumId}) => {
             {images.map((image, index) => {
                 return (
                     <Col key={index} sm={6} md={4}>
-                        <Image image={image} />
+                        <Image image={image} canBeDeleted={true} />
                     </Col>
                 )
             })}
