@@ -10,10 +10,10 @@ import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
 import { Provider } from 'react-redux';
 import { act } from 'react-dom/test-utils';
 
-describe('Login component', () => {
-    test('Renders login form', async () => {
+describe('Signup component', () => {
+    test('Renders Signup form', async () => {
         const history = createMemoryHistory();
-        window.history.pushState({}, '', '/login')
+        window.history.pushState({}, '', '/sign-up')
         act(() => {
             render(
                 <Provider store={store}>
@@ -26,13 +26,8 @@ describe('Login component', () => {
             );
         })
 
-        
-        const loading = screen.getByText('...loading')
-        expect(loading).toBeInTheDocument();
-        
-        
         await waitFor(() => {
-            const LoginButton = screen.getByRole('button', { name: /sign in/i});
+            const LoginButton = screen.getByRole('button', { name: /create account/i});
             const EmailLable = screen.getByLabelText('Email address')
             const PasswordLable = screen.getByLabelText('Password')
             

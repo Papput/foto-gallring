@@ -3,8 +3,6 @@ import firebase from '../../firebase';
 import { store } from '../store'
 
 const reduxFirebaseConfig = {
-    userProfile: 'users',
-    useFirestoreForProfile: true,
 }
 
 
