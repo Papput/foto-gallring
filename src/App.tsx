@@ -11,8 +11,6 @@ import UploadImagesToAlbum from './components/album/UploadImagesToAlbum';
 import Review from './components/review/Review';
 import Navbar from './components/navbar/NavbarComponent';
 import SuccessPage from './components/review/SuccessPage';
-import LoaderComponent from './components/loader/LoaderComponent';
-
 
 function App() {
   return (
@@ -20,9 +18,6 @@ function App() {
         <Navbar />
         <Container>
             <Routes>
-                <Route path="/loading">
-                    <LoaderComponent />
-                </Route>
                 <AuthRoute path="/">
                     <Main />
                 </AuthRoute>
